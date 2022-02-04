@@ -63,13 +63,14 @@ class ContactHelper {
         where: '$idColumn = ?', whereArgs: [contact.id]);
   }
 
-  getAllContacts() async{
+  Future<List<Contact>> getAllContacts() async{
     Database dbContact = await db;
     List listMap = await dbContact.rawQuery("SELECT * FROM $contactTable");
     List<Contact> listContact = [];
     for(Map m in listMap) {
       listContact.add(Contact.fromMap(m));
     }
+    return listContact;
   }
 
   Future<int> getNumber() async {
@@ -89,6 +90,8 @@ class Contact {
   String? email;
   String? phone;
   String? img;
+
+  Contact();
 
   Contact.fromMap(Map map) {
     id = map[idColumn];
